@@ -1,2 +1,4 @@
 com.brooks.personalpasswordmanger/.idea/*
 com.brooks.personalpasswordmanger/build/*
+com.brooks.personalpasswordmanger/.gradle/*
+com.brooks.personalpasswordmanger/gradle/*
