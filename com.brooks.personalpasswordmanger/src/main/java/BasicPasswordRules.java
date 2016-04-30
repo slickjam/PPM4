@@ -15,11 +15,11 @@ public class BasicPasswordRules implements IPasswordRules {
 
     public boolean validatePassword(String encryptedPassword) {
 
-        boolean result;
         passwordToValidate = encryptedPassword;
 
-        result = doesPasswordMeetTheLengthRequired();
+        boolean result = doesPasswordMeetTheLengthRequired();
         result = result & doesPasswordContainANumber();
+        result = result & doesPasswordContainMixedCase();
 
         return result;
     }
@@ -43,6 +43,15 @@ public class BasicPasswordRules implements IPasswordRules {
         boolean result = true;
         if(isNumberRequired()) {
             result = passwordToValidate.matches(".*\\d+.*");
+        }
+        return result;
+    }
+
+    private boolean doesPasswordContainMixedCase()
+    {
+        boolean result = true;
+        if(isMixedCaseRequired()) {
+            result = passwordToValidate.matches(".*[A-Z].*") && passwordToValidate.matches(".*[a-z].*") ;
         }
         return result;
     }

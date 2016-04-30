@@ -15,6 +15,7 @@ public class BasicPasswordRulesTest {
         baseRules = new BasicPasswordRules();
         baseRules.setRequiredPasswordLength(0);
         baseRules.setNumberRequired(false);
+        baseRules.setMixedCaseRequired(false);
     }
 
     @After
@@ -79,6 +80,30 @@ public class BasicPasswordRulesTest {
     public void passwordDoesNotContainsAtLeastOneNumber() throws Exception {
         baseRules.setNumberRequired(true);
         String testString = "Hi Number!";
+        boolean result = baseRules.validatePassword(testString);
+        assertFalse(result);
+    }
+
+    @Test
+    public void passwordIsAllUppercase() throws Exception {
+        baseRules.setMixedCaseRequired(true);
+        String testString = "HELLO";
+        boolean result = baseRules.validatePassword(testString);
+        assertFalse(result);
+    }
+
+    @Test
+    public void passwordIsMixedCase() throws Exception {
+        baseRules.setMixedCaseRequired(true);
+        String testString = "Hello";
+        boolean result = baseRules.validatePassword(testString);
+        assertTrue(result);
+    }
+
+    @Test
+    public void passwordIsAllLowercase() throws Exception {
+        baseRules.setMixedCaseRequired(true);
+        String testString = "hello";
         boolean result = baseRules.validatePassword(testString);
         assertFalse(result);
     }
