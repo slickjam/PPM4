@@ -24,13 +24,32 @@ public class BasicPasswordRulesTest {
     @Test
     public void lengthOfPasswordIsValid() throws Exception {
         boolean result = baseRules.validatePassword("qwertyuiopasdfghjklzxcvbnmqwerty");
-        Assert.assertTrue(result);
+        assertTrue(result);
     }
 
     @Test
     public void lengthOfPasswordIsNotValid() throws Exception {
         boolean result = baseRules.validatePassword("qwertyuiopasdfghjklzxcvbnmqwert");
-        Assert.assertFalse(result);
+        assertFalse(result);
     }
 
+    @Test
+    public void lengthOfPasswordIsValidAfterLengthIsChanged() throws Exception {
+
+        String testString = "Hi There!";
+        baseRules.setPasswordLength(testString.length());
+        boolean result = baseRules.validatePassword(testString);
+        assertTrue(result);
+    }
+
+    @Test
+    public void lengthOfPasswordIsNotValidAfterLengthIsChanged() throws Exception {
+        String testString = "Hi There!";
+        baseRules.setPasswordLength(testString.length());
+        boolean result = baseRules.validatePassword(testString);
+        assertTrue(result);
+        baseRules.setPasswordLength(testString.length() - 1);
+        result = baseRules.validatePassword(testString);
+        assertFalse(result);
+    }
 }

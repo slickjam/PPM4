@@ -16,7 +16,7 @@ public class BasicPasswordRules implements IPasswordRules {
 
     public boolean validatePassword(String encryptedPassword) {
 
-        boolean result = false;
+        boolean result;
         passwordToValidate = encryptedPassword;
 
         result = doesPasswordMeetTheLengthRequired();
