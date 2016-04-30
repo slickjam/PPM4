@@ -4,8 +4,7 @@
 public class BasicPasswordRules implements IPasswordRules {
 
     // Fields
-    private int passwordLength = 32;
-    private boolean passwordLengthRequired = true;
+    private int requiredPasswordLength = 32;
     private boolean numberRequired = true;
     private boolean mixedCaseRequired = true;
     private boolean symbolRequired = true;
@@ -20,6 +19,7 @@ public class BasicPasswordRules implements IPasswordRules {
         passwordToValidate = encryptedPassword;
 
         result = doesPasswordMeetTheLengthRequired();
+        result = result & doesPasswordContainANumber();
 
         return result;
     }
@@ -31,18 +31,23 @@ public class BasicPasswordRules implements IPasswordRules {
 
     private boolean doesPasswordMeetTheLengthRequired()
     {
-        return passwordToValidate.length() == passwordLength;
+        boolean result = true;
+        if(0 != requiredPasswordLength) {
+            result = passwordToValidate.length() == requiredPasswordLength;
+        }
+        return result;
+    }
+
+    private boolean doesPasswordContainANumber()
+    {
+        boolean result = true;
+        if(isNumberRequired()) {
+            result = passwordToValidate.matches(".*\\d+.*");
+        }
+        return result;
     }
 
     // Getters and Setters
-
-    public boolean isPasswordLengthRequired() {
-        return passwordLengthRequired;
-    }
-
-    public void setPasswordLengthRequired(boolean passwordLengthRequired) {
-        this.passwordLengthRequired = passwordLengthRequired;
-    }
 
     public boolean isNumberRequired() {
         return numberRequired;
@@ -68,11 +73,11 @@ public class BasicPasswordRules implements IPasswordRules {
         this.symbolRequired = symbolRequired;
     }
 
-    public int getPasswordLength() {
-        return passwordLength;
+    public int getRequiredPasswordLength() {
+        return requiredPasswordLength;
     }
 
-    public void setPasswordLength(int passwordLength) {
-        this.passwordLength = passwordLength;
+    public void setRequiredPasswordLength(int requiredPasswordLength) {
+        this.requiredPasswordLength = requiredPasswordLength;
     }
 }
