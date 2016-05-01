@@ -16,6 +16,7 @@ public class BasicPasswordRulesTest {
         baseRules.setRequiredPasswordLength(0);
         baseRules.setNumberRequired(false);
         baseRules.setMixedCaseRequired(false);
+        baseRules.setSymbolRequired(false);
     }
 
     @After
@@ -103,6 +104,21 @@ public class BasicPasswordRulesTest {
     @Test
     public void passwordIsAllLowercase() throws Exception {
         baseRules.setMixedCaseRequired(true);
+        String testString = "hello";
+        boolean result = baseRules.validatePassword(testString);
+        assertFalse(result);
+    }
+
+    @Test
+    public void passwordRequiresASymbol() throws Exception {
+        baseRules.setSymbolRequired(true);
+        String testString = "hello!";
+        boolean result = baseRules.validatePassword(testString);
+        assertTrue(result);
+    }
+    @Test
+    public void passwordRequiresASymbolAndDoesNotContainOne() throws Exception {
+        baseRules.setSymbolRequired(true);
         String testString = "hello";
         boolean result = baseRules.validatePassword(testString);
         assertFalse(result);

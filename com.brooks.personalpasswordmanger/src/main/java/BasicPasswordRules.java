@@ -20,6 +20,7 @@ public class BasicPasswordRules implements IPasswordRules {
         boolean result = doesPasswordMeetTheLengthRequired();
         result = result & doesPasswordContainANumber();
         result = result & doesPasswordContainMixedCase();
+        result = result & doesPasswordContainASymbol();
 
         return result;
     }
@@ -32,7 +33,7 @@ public class BasicPasswordRules implements IPasswordRules {
     private boolean doesPasswordMeetTheLengthRequired()
     {
         boolean result = true;
-        if(0 != requiredPasswordLength) {
+        if(0 != getRequiredPasswordLength()) {
             result = passwordToValidate.length() == requiredPasswordLength;
         }
         return result;
@@ -52,6 +53,15 @@ public class BasicPasswordRules implements IPasswordRules {
         boolean result = true;
         if(isMixedCaseRequired()) {
             result = passwordToValidate.matches(".*[A-Z].*") && passwordToValidate.matches(".*[a-z].*") ;
+        }
+        return result;
+    }
+
+    private boolean doesPasswordContainASymbol()
+    {
+        boolean result = true;
+        if(isSymbolRequired()) {
+            result = passwordToValidate.matches(".*\\W.*");
         }
         return result;
     }
