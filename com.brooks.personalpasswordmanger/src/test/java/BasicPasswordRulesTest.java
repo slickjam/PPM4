@@ -123,4 +123,61 @@ public class BasicPasswordRulesTest {
         boolean result = baseRules.validatePassword(testString);
         assertFalse(result);
     }
+
+    @Test
+    public void passwordRequiresASymbolCheckMultipleSymbols() throws Exception {
+        baseRules.setSymbolRequired(true);
+
+        String testString = "hel@lo";
+        boolean result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell#";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell$";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell%";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell^";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell&";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell*";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell(";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell-";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell+";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell`";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell~";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+
+        testString = "hell?";
+        result = baseRules.validatePassword(testString);
+        assertTrue(result);
+    }
 }
