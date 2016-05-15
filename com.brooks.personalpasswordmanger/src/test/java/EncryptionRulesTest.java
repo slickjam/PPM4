@@ -1,3 +1,5 @@
+import EncryptionRules.ContainsNumberRule;
+import EncryptionRules.ContainsSymbolRule;
 import EncryptionRules.MinimumLengthRule;
 import EncryptionRules.MixedCaseRule;
 import org.junit.After;
@@ -10,6 +12,19 @@ import static org.junit.Assert.*;
  * Created by SlickJam on 4/30/2016.
  */
 public class EncryptionRulesTest {
+
+
+    @Test
+    public void passwordLengthIsRequired() throws Exception {
+        MinimumLengthRule minimumLengthRule = new MinimumLengthRule();
+        assertTrue(minimumLengthRule.isRequired());
+    }
+
+    @Test
+    public void passwordLengthIsNotRequired() throws Exception {
+        MinimumLengthRule minimumLengthRule = new MinimumLengthRule(32, false);
+        assertFalse(minimumLengthRule.isRequired());
+    }
 
     @Test
     public void lengthOfPasswordIsValid() throws Exception {
@@ -59,115 +74,152 @@ public class EncryptionRulesTest {
         assertTrue(result);
     }
 
-   /* @Test
+    @Test
+    public void passwordContainsNumberIsRequired() throws Exception {
+        ContainsNumberRule containsNumberRule = new ContainsNumberRule();
+        assertTrue(containsNumberRule.isRequired());
+    }
+
+    @Test
+    public void passwordContainsNumberIsNotRequired() throws Exception {
+        ContainsNumberRule containsNumberRule = new ContainsNumberRule(false);
+        assertFalse(containsNumberRule.isRequired());
+    }
+
+    @Test
     public void passwordContainsAtLeastOneNumber() throws Exception {
-        baseRules.setNumberRequired(true);
+        ContainsNumberRule containsNumberRule = new ContainsNumberRule(true);
         String testString = "Hi Number 42!";
-        boolean result = baseRules.validatePassword(testString);
+        boolean result = containsNumberRule.isValid(testString);
         assertTrue(result);
     }
 
     @Test
     public void passwordDoesNotContainsAtLeastOneNumber() throws Exception {
-        baseRules.setNumberRequired(true);
+        ContainsNumberRule containsNumberRule = new ContainsNumberRule();
         String testString = "Hi Number!";
-        boolean result = baseRules.validatePassword(testString);
+        boolean result = containsNumberRule.isValid(testString);
         assertFalse(result);
     }
 
     @Test
+    public void passwordMixedCaseIsRequired() throws Exception {
+        MixedCaseRule mixedCaseRule = new MixedCaseRule();
+        assertTrue(mixedCaseRule.isRequired());
+    }
+
+    @Test
+    public void passwordMixedCaseIsNotRequired() throws Exception {
+        MixedCaseRule mixedCaseRule = new MixedCaseRule(false);
+        assertFalse(mixedCaseRule.isRequired());
+    }
+
+    @Test
     public void passwordIsAllUppercase() throws Exception {
-        baseRules.setMixedCaseRequired(true);
+        MixedCaseRule mixedCaseRule = new MixedCaseRule(true);
         String testString = "HELLO";
-        boolean result = baseRules.validatePassword(testString);
+        boolean result = mixedCaseRule.isValid(testString);
         assertFalse(result);
     }
 
     @Test
     public void passwordIsMixedCase() throws Exception {
-        baseRules.setMixedCaseRequired(true);
+        MixedCaseRule mixedCaseRule = new MixedCaseRule();
         String testString = "Hello";
-        boolean result = baseRules.validatePassword(testString);
+        boolean result = mixedCaseRule.isValid(testString);
         assertTrue(result);
     }
 
     @Test
     public void passwordIsAllLowercase() throws Exception {
-        baseRules.setMixedCaseRequired(true);
+        MixedCaseRule mixedCaseRule = new MixedCaseRule();
         String testString = "hello";
-        boolean result = baseRules.validatePassword(testString);
+        boolean result = mixedCaseRule.isValid(testString);
         assertFalse(result);
+    }
+
+    @Test
+    public void passwordSymbolIsRequired() throws Exception {
+        ContainsSymbolRule containsSymbolRule = new ContainsSymbolRule();
+        assertTrue(containsSymbolRule.isRequired());
+    }
+
+    @Test
+    public void passwordSymbolIsNotRequired() throws Exception {
+        ContainsSymbolRule containsSymbolRule = new ContainsSymbolRule(false);
+        assertFalse(containsSymbolRule.isRequired());
     }
 
     @Test
     public void passwordRequiresASymbol() throws Exception {
-        baseRules.setSymbolRequired(true);
+        ContainsSymbolRule containsSymbolRule = new ContainsSymbolRule();
         String testString = "hello!";
-        boolean result = baseRules.validatePassword(testString);
+        boolean result = containsSymbolRule.isValid(testString);
         assertTrue(result);
     }
+
     @Test
     public void passwordRequiresASymbolAndDoesNotContainOne() throws Exception {
-        baseRules.setSymbolRequired(true);
+        ContainsSymbolRule containsSymbolRule = new ContainsSymbolRule(true);
         String testString = "hello";
-        boolean result = baseRules.validatePassword(testString);
+        boolean result = containsSymbolRule.isValid(testString);
         assertFalse(result);
     }
 
-    @Test
+   @Test
     public void passwordRequiresASymbolCheckMultipleSymbols() throws Exception {
-        baseRules.setSymbolRequired(true);
+       ContainsSymbolRule containsSymbolRule = new ContainsSymbolRule(true);
 
         String testString = "hel@lo";
-        boolean result = baseRules.validatePassword(testString);
+        boolean result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell#";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell$";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell%";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell^";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell&";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell*";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell(";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell-";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell+";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell`";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell~";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
 
         testString = "hell?";
-        result = baseRules.validatePassword(testString);
+        result = containsSymbolRule.isValid(testString);
         assertTrue(result);
-    }*/
+    }
 }
