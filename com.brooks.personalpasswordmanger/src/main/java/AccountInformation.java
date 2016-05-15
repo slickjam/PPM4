@@ -1,24 +1,28 @@
+import EncryptionRules.IEncryptionRule;
+
+import java.util.List;
+
 /**
  * Created by SlickJam on 5/1/2016.
  */
 public class AccountInformation implements IAccountInformation {
     private String accountName;
     private String password;
-    private IPasswordRules passwordRules;
+    private List<IEncryptionRule> encryptionRules;
 
     public AccountInformation(){
         // Blank
     }
 
-    public AccountInformation(String accountName, String plainTextPassword, IPasswordRules passwordRules){
-        add(accountName, plainTextPassword, passwordRules);
+    public AccountInformation(String accountName, String plainTextPassword, List<IEncryptionRule> encryptionRules){
+        add(accountName, plainTextPassword, encryptionRules);
     }
 
-    public void add(String accountName, String plainTextPassword, IPasswordRules passwordRules) {
+    public void add(String accountName, String plainTextPassword, List<IEncryptionRule> encryptionRules) {
 
         this.accountName = accountName;
         this.password = plainTextPassword;
-        this.passwordRules = passwordRules;
+        this.encryptionRules = encryptionRules;
     }
 
     public void modify(String newAccountName) {
@@ -29,7 +33,7 @@ public class AccountInformation implements IAccountInformation {
 
     }
 
-    public void modify(String newAccountName, String newPlainTextPassword, IPasswordRules newPasswordRules) {
+    public void modify(String newAccountName, String newPlainTextPassword, List<IEncryptionRule> encryptionRules) {
 
     }
 
@@ -42,7 +46,7 @@ public class AccountInformation implements IAccountInformation {
         return accountName;
     }
 
-    public IPasswordRules getPasswordRules() {
-        return passwordRules;
+    public List<IEncryptionRule> getEncryptionRules() {
+        return encryptionRules;
     }
 }

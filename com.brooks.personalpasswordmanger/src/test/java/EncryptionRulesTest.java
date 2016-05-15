@@ -1,3 +1,5 @@
+import EncryptionRules.MinimumLengthRule;
+import EncryptionRules.MixedCaseRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -7,34 +9,19 @@ import static org.junit.Assert.*;
 /**
  * Created by SlickJam on 4/30/2016.
  */
-public class BasicPasswordRulesTest {
-
-    BasicPasswordRules baseRules;
-    @Before
-    public void setUp() throws Exception {
-        baseRules = new BasicPasswordRules();
-        baseRules.setRequiredPasswordLength(0);
-        baseRules.setNumberRequired(false);
-        baseRules.setMixedCaseRequired(false);
-        baseRules.setSymbolRequired(false);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-
-    }
+public class EncryptionRulesTest {
 
     @Test
     public void lengthOfPasswordIsValid() throws Exception {
-        baseRules.setRequiredPasswordLength(32);
-        boolean result = baseRules.validatePassword("qwertyuiopasdfghjklzxcvbnmqwerty");
+        MinimumLengthRule minimumLengthRule = new MinimumLengthRule(32, true);
+        boolean result = minimumLengthRule.isValid("qwertyuiopasdfghjklzxcvbnmqwerty");
         assertTrue(result);
     }
 
     @Test
     public void lengthOfPasswordIsNotValid() throws Exception {
-        baseRules.setRequiredPasswordLength(32);
-        boolean result = baseRules.validatePassword("qwertyuiopasdfghjklzxcvbnmqwert");
+        MinimumLengthRule minimumLengthRule = new MinimumLengthRule(32, true);
+        boolean result = minimumLengthRule.isValid("qwertyuiopasdfghjklzxcvbnmqwert");
         assertFalse(result);
     }
 
@@ -42,34 +29,37 @@ public class BasicPasswordRulesTest {
     public void lengthOfPasswordIsValidAfterLengthIsChanged() throws Exception {
 
         String testString = "Hi There!";
-        baseRules.setRequiredPasswordLength(testString.length());
-        boolean result = baseRules.validatePassword(testString);
+        MinimumLengthRule minimumLengthRule = new MinimumLengthRule(testString.length(), true);
+        boolean result = minimumLengthRule.isValid(testString);
         assertTrue(result);
     }
 
-    @Test
+   @Test
     public void lengthOfPasswordIsStillValidAfterLengthIsChanged() throws Exception {
         String testString = "Hi There!";
-        baseRules.setRequiredPasswordLength(testString.length());
-        boolean result = baseRules.validatePassword(testString);
+        MinimumLengthRule minimumLengthRule = new MinimumLengthRule();
+        minimumLengthRule.setRequiredPasswordLength(testString.length());
+        boolean result = minimumLengthRule.isValid(testString);
         assertTrue(result);
-        baseRules.setRequiredPasswordLength(testString.length());
-        result = baseRules.validatePassword(testString);
+        minimumLengthRule.setRequiredPasswordLength(testString.length());
+        result = minimumLengthRule.isValid(testString);
         assertTrue(result);
     }
 
     @Test
-    public void lengthOfPasswordIsStillNotValidUntilAfterLengthIsChangedToZero() throws Exception {
+    public void lengthOfPasswordIsValidBasedOnNotBeingRequired() throws Exception {
         String testString = "Hi There!";
-        baseRules.setRequiredPasswordLength(testString.length() - 1);
-        boolean result = baseRules.validatePassword(testString);
+        MinimumLengthRule minimumLengthRule = new MinimumLengthRule(testString.length() - 1, false);
+        boolean result = minimumLengthRule.isValid(testString);
         assertFalse(result);
-        baseRules.setRequiredPasswordLength(0);
-        result = baseRules.validatePassword(testString);
+        result = true;
+        if(minimumLengthRule.isRequired()) {
+            result = minimumLengthRule.isValid(testString);
+        }
         assertTrue(result);
     }
 
-    @Test
+   /* @Test
     public void passwordContainsAtLeastOneNumber() throws Exception {
         baseRules.setNumberRequired(true);
         String testString = "Hi Number 42!";
@@ -179,5 +169,5 @@ public class BasicPasswordRulesTest {
         testString = "hell?";
         result = baseRules.validatePassword(testString);
         assertTrue(result);
-    }
+    }*/
 }

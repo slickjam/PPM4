@@ -1,6 +1,9 @@
+import EncryptionRules.IEncryptionRule;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -26,46 +29,49 @@ public class AccountInformationTest {
 
         assertEquals(null, accountInfo.getAccountName());
         assertEquals(null, accountInfo.getPassword());
-        assertEquals(null, accountInfo.getPasswordRules());
+        assertEquals(null, accountInfo.getEncryptionRules());
     }
 
     @Test
     public void addAccountInformationThenGetThatInformation() throws Exception {
-        IPasswordRules mockRules = mock(IPasswordRules.class);
+        List<IEncryptionRule> mockRules = mock(List.class);
+        mockRules.add(mock(IEncryptionRule.class));
 
         accountInfo.add("JohnDoe","password", mockRules);
 
         assertEquals("JohnDoe", accountInfo.getAccountName());
         assertEquals("password", accountInfo.getPassword());
-        assertEquals(mockRules, accountInfo.getPasswordRules());
+        assertEquals(mockRules, accountInfo.getEncryptionRules());
     }
 
     @Test
     public void addAccountInformationWithTheConstructorThenGetThatInformation() throws Exception {
-        IPasswordRules mockRules = mock(IPasswordRules.class);
+        List<IEncryptionRule> mockRules = mock(List.class);
+        mockRules.add(mock(IEncryptionRule.class));
 
         AccountInformation ai = new AccountInformation("JohnDoe","password", mockRules);
 
         assertEquals("JohnDoe", ai.getAccountName());
         assertEquals("password", ai.getPassword());
-        assertEquals(mockRules, ai.getPasswordRules());
+        assertEquals(mockRules, ai.getEncryptionRules());
     }
 
     @Test
     public void modifyExistingAccountInformationAccountName() throws Exception {
-        IPasswordRules mockRules = mock(IPasswordRules.class);
+        List<IEncryptionRule> mockRules = mock(List.class);
+        mockRules.add(mock(IEncryptionRule.class));
 
         AccountInformation ai = new AccountInformation("JohnDoe","password", mockRules);
 
         assertEquals("JohnDoe", ai.getAccountName());
         assertEquals("password", ai.getPassword());
-        assertEquals(mockRules, ai.getPasswordRules());
+        assertEquals(mockRules, ai.getEncryptionRules());
 
         ai.modify("JamesSmith");
 
         assertEquals("JamesSmith", ai.getAccountName());
         assertEquals("password", ai.getPassword());
-        assertEquals(mockRules, ai.getPasswordRules());
+        assertEquals(mockRules, ai.getEncryptionRules());
     }
 
 }
